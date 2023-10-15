@@ -28,6 +28,7 @@ async function run() {
     await client.connect();
     // Get the database and collection on which to run the operation
     const coffeCollection = client.db("coffeeDB").collection("coffee");
+    const usersCollections = client.db("coffeeDB").collection("users")
     // read data from database
     app.get("/coffee", async (req, res) => {
       const cursor = coffeCollection.find();
@@ -71,7 +72,13 @@ async function run() {
       const result = await coffeCollection.deleteOne(query)
       res.send(result)
     })
-
+    // add users to database after created account
+    app.post("/user", async (req, res) => {
+      const newUsers = req.body;
+      console.log(newUsers)
+      const result = await usersCollections.insertOne(newUsers)
+      res.send(result)
+    })
 
 
     // Send a ping to confirm a successful connection
