@@ -78,8 +78,21 @@ async function run() {
       const cursor = await usersCollections.find().toArray();
       res.send(cursor)
     })
-    // get an users for delete
 
+    // update logged in time in data base when login.
+
+    app.patch("/loggedInusers", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const userDocs = {
+        $set: {
+          lastLoggedIngAt: user.lastLoggedIn
+        }
+      }
+      console.log(user)
+      const result = await usersCollections.updateOne(filter, userDocs)
+      res.send(result)
+    })
 
     // add users to database after created account
     app.post("/user", async (req, res) => {
