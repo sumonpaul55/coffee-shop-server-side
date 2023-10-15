@@ -72,14 +72,29 @@ async function run() {
       const result = await coffeCollection.deleteOne(query)
       res.send(result)
     })
+    //user related apis
+    // read and get data from database
+    app.get("/users", async (req, res) => {
+      const cursor = await usersCollections.find().toArray();
+      res.send(cursor)
+    })
+    // get an users for delete
+
+
     // add users to database after created account
     app.post("/user", async (req, res) => {
       const newUsers = req.body;
-      console.log(newUsers)
       const result = await usersCollections.insertOne(newUsers)
       res.send(result)
     })
+    // For delete an users from dataBase
+    app.delete("/deleteUser/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await usersCollections.deleteOne(query)
+      res.send(result)
 
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
