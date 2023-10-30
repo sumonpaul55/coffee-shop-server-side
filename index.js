@@ -25,7 +25,6 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
     // Get the database and collection on which to run the operation
     const coffeCollection = client.db("coffeeDB").collection("coffee");
     const usersCollections = client.db("coffeeDB").collection("users")
@@ -42,12 +41,8 @@ async function run() {
       const result = await coffeCollection.findOne(query)
       res.send(result)
     })
-    //  const foods = database.collection("foods");
-    app.post("/coffee", async (req, res) => {
-      const newCoffee = req.body;
-      const result = await coffeCollection.insertOne(newCoffee)
-      res.send(result)
-    })
+
+
     // update operation code
     app.put("/coffee/:id", async (req, res) => {
       const targetCoffe = req.params.id;
